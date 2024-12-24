@@ -115,15 +115,19 @@ body {
     border-radius: 13px 13px 13px 3px;
     color: #fff;
 }
+.chat-body .bot-message .thinking-indicator {
+    display: flex;
+    gap: 4px;
+    padding-block: 15px;
+}
 .chat-body .bot-message .thinking-indicator .dot {
     height: 7px;
     width: 7px;
     border-radius: 50%;
 background: 6F6BC2;
-animation: dotPulse 1.8s ease-in-out;
+animation: dotPulse 1.8s ease-in-out infinite;
 }
 .chat-footer {
-  position: absolute;
-  bottom: 80px;
-  padding-left: 20px;
+ position: absolute;
+ 
 }
