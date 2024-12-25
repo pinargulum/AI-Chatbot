@@ -22,3 +22,4 @@ messageInput.addEventListener("keydown", (e) => {
     handleOutgoingMessage(userMessage);
   }
 });
+
