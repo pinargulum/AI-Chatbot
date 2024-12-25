@@ -113,7 +113,8 @@ body {
   background-color: #f2f2ff;
   border-radius: 13px 13px 13px 3px;
 }
-.chat-body .user-message .message-text {
+#user-text-message {
+ 
   background-color: #5350c4;
   border-radius: 13px 13px 13px 3px;
   color: #fff;
