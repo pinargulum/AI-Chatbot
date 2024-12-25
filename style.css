@@ -166,11 +166,11 @@ body {
   display: flex;
   align-items: center;
   background: #fff;
-  outline: 1px solid #CCCCE5;
+  outline: 1px solid #cccce5;
   border-radius: 32px;
 }
 .chat-form:focus-within {
-    outline: 2px solid #5350c4;
+  outline: 2px solid #5350c4;
 }
 .message-input {
   border: none;
@@ -189,7 +189,6 @@ body {
   align-self: flex-end;
   padding-right: 6px;
   gap: 3px;
-  
 }
 .material-symbols-rounded {
   font-size: 1.15rem;
@@ -206,10 +205,9 @@ body {
   background: #f1f1ff;
 }
 #send-message {
-    color: #fff;
-    background: #5350c4;
-
+  color: #fff;
+  background: #5350c4;
 }
 #send-message:hover {
-    background:  #3c3299;
+  background: #3c3299;
 }
