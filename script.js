@@ -1,6 +1,10 @@
 const chatBody = document.querySelector(".chat-body");
 const userInput = document.querySelector(".message-input");
-let sendButton = document.querySelector("#send-message");
+const sendButton = document.querySelector("#send-message");
+const newText = document.querySelector(".message-text");
+const userData = {
+  message: null,
+};
 function createMessageElement(content, classes) {
   const div = document.createElement("div");
   div.classList.add("message", classes);
@@ -8,17 +12,30 @@ function createMessageElement(content, classes) {
   return div;
 }
 
-function handleOutgoingMessage(newMessage) {
-  const messageContent = `<div class="user-message">${newMessage}</div>`;
+//handleSentButton
+function handleOutgoingMessage(e) {
+  const messageContent = `<div class="message-text"></div>`;
   const outgoingMessageDiv = createMessageElement(
     messageContent,
     "user-message"
   );
+  e.preventDefault();
+  newMessage = newText;
+  newMessage = userInput.value;
+  //userData.message = userInput.value;
+  userInput.value = "";
+  
+  outgoingMessageDiv.querySelector(".message-text").textContent = newMessage;
+    newMessage
   chatBody.appendChild(outgoingMessageDiv);
 }
-
-sendButton.addEventListener("click", (e) => {
-  newMessage = e.target.value;
-  newMessage = userInput.value;
+////Event Listeners
+userInput.addEventListener("keydown", (e) => {
+  const newMessage = e.target.value;
+  if (e.key === "Enter" && newMessage) {
+    handleOutgoingMessage(newMessage);
+  }
+});
+sendButton.addEventListener("click", (newMessage) => {
   handleOutgoingMessage(newMessage);
-})
+});
