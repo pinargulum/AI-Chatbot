@@ -21,4 +21,4 @@ sendButton.addEventListener("click", (e) => {
   newMessage = e.target.value;
   newMessage = userInput.value;
   handleOutgoingMessage(newMessage);
-});
+})
