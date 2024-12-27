@@ -15,20 +15,20 @@ function createMessageElement(content, classes) {
 
 /////HANDLE EVENTS///
 function handleOutgoingMessage(e) {
-  const messageContent = `<div class="message-text"></div>`
-                
+  e.preventDefault();
+  const messageContent = `<div class="message-text"></div>`;
   const outgoingMessageDiv = createMessageElement(
     messageContent,
     "user-message"
   );
-  e.preventDefault();
+
   newMessage = newText;
   newMessage = userInput.value;
   userInput.value = "";
   outgoingMessageDiv.querySelector(".message-text").textContent = newMessage;
   newMessage;
   chatBody.appendChild(outgoingMessageDiv);
-
+  
   setTimeout(() => {
     const messageContent = `<div class="message bot-message thinking">
                 <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -52,16 +52,16 @@ function handleOutgoingMessage(e) {
       ".bot-message"
     );
     chatBody.appendChild(incomingMessageDiv);
-  }, 1000);
+  }, 600);
 }
 
 ////Event Listeners///
 userInput.addEventListener("keydown", (e) => {
   const newMessage = e.target.value;
   if (e.key === "Enter" && newMessage) {
-    handleOutgoingMessage(newMessage);
+    handleOutgoingMessage(e);
   }
 });
-sendButton.addEventListener("click", (newMessage) => {
-  handleOutgoingMessage(newMessage);
+sendButton.addEventListener("click", (e) => {
+  handleOutgoingMessage(e);
 });
