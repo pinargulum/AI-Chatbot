@@ -29,28 +29,21 @@ function handleOutgoingMessage(e) {
   outgoingMessageDiv.querySelector(".message-text").textContent = newMessage;
   newMessage;
   chatBody.appendChild(outgoingMessageDiv);
-  
+
   setTimeout(() => {
     const messageContent = `<div class="message bot-message thinking">
                 <img class="bot-avatar" src="./src/avatar.png" alt="bot-avatar" />
-
-
                 <div class="message-text">
                     <div class="thinking-indicator">
                         <div class="dot"></div>
                         <div class="dot"></div>
                         <div class="dot"></div>
                     </div>
-                </div>
-            </div>
+                </div>  
         </div>`
-           
-    
-                
-    const incomingMessageDiv = createMessageElement(
+      const incomingMessageDiv = createMessageElement(
       messageContent,
       ".bot-message",
-     
     );
     chatBody.appendChild(incomingMessageDiv);
   }, 600);
