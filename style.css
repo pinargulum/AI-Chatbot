@@ -69,7 +69,6 @@ body {
   background: #3c3299;
 }
 .chat-body {
-  display: flex;
   height: 460px;
   display: flex;
   flex-direction: column;
