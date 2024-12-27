@@ -7,10 +7,44 @@ botAvatar = document.querySelector(".botAvatar")
 const userData = {
   message: null,
 };
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+}
 const API_KEY = "AIzaSyCwrsYY38YuPROjubKMXuXOoDaS64ep-vk";
-
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-//const generateBotResponse 
+
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+}
+
+async function generateBotResponse (incomingMessageDiv) {
+  const requestOptions =  {
+    method: "POST",
+    headers: { "Content-Type": "application/Json" },
+    body: JSON.stringify({
+      contents: [{
+    parts:[{ text: userData.message }]
+      
+  }]
+  
+})
+}
+try {
+  const response = await fetch(API_URL, requestOptions);
+  const data = await response.json();
+  if(!response.ok) throw new Error(data.error.message);
+  const apiResponseText = data.candidates[0].content.parts[0].text.trim();
+
+  } catch(error) {
+    console.log(error)
+}
+}
 function createMessageElement(content, ...classes) {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
@@ -57,6 +91,7 @@ function handleOutgoingMessage(e) {
       ".bot-message",
     );
     chatBody.appendChild(incomingMessageDiv);
+    generateBotResponse(incomingMessageDiv);
   }, 600);
 }
 
