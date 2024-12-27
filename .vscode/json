@@ -1,0 +1,5 @@
+const jsonfile = require("jsonfile");
+jsonfile.readFile("data.json", (err,obj) => {
+    if(err) console.error(err);
+    console.log(obj);
+});
