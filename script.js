@@ -1,20 +1,37 @@
-
 const chatBody = document.querySelector(".chat-body");
 const userInput = document.querySelector(".message-input");
 const sendButton = document.querySelector("#send-message");
 const botThinking = document.querySelector(".message.bot-message.thinking");
 const newText = document.querySelector(".message-text");
-botAvatar = document.querySelector(".botAvatar");
+const botAvatar = document.querySelector(".botAvatar");
+const inputForm = document.querySelector(".chat-form");
+
+// VALIDATION
 
 const userData = {
   message: null,
 };
 
 
+function createMessageElement(content, ...classes) {
+  const div = document.createElement("div");
+  div.classList.add("message", ...classes);
+  div.innerHTML = content;
+  return div;
+}
+
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+}
+const API_KEY = "AIzaSyCwrsYY38YuPROjubKMXuXOoDaS64ep-vk";
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 async function generateBotResponse(incomingMessageDiv) {
   const messageElement = incomingMessageDiv.querySelector(".message-text");
-  const requestOptions = {
+  return fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/Json" },
     body: JSON.stringify({
@@ -24,41 +41,41 @@ async function generateBotResponse(incomingMessageDiv) {
         },
       ],
     }),
-  };
-  try {
-    const response = await fetch(API_URL, requestOptions);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error.message);
-    const apiBotResponseText = data.candidates[0].content.parts[0].text.trim();
-    messageElement.innerText = apiBotResponseText;
-  } catch (error) {
-    console.log(error);
+  })
+    .then(checkResponse)
+    .then((data) => {
+      const apiBotResponseText =
+        data.candidates[0].content.parts[0].text.trim();
+      messageElement.innerText = apiBotResponseText;
+    })
+    .catch(console.error);
+}
+function disabledSubmit() {
+  inputForm.addEventListener("submit", (e) => {
+    const newMessage = e.target.value;
+  
+    userInput.value = "";
+    sendButton.disabled = true;
+    if (newMessage !== userInput) {
+      sendButton.disabled = false;
+    } else {
+      sendButton.disabled = true;
+    }
+  });
   }
-}
-
-function createMessageElement(content, ...classes) {
-  const div = document.createElement("div");
-  div.classList.add("message", ...classes);
-  div.innerHTML = content;
-  return div;
-}
-
 /////USER MESSAGE///
 function handleOutgoingMessage(e) {
   e.preventDefault();
+  disabledSubmit
   const messageContent = `<div class="message-text"></div>`;
-  const outgoingMessageDiv = createMessageElement(
-    messageContent,
-    "user-message",
-  );
+  outgoingMessageDiv = createMessageElement(messageContent, "user-message");
 
   userData.message = userInput.value;
   userInput.value = "";
   outgoingMessageDiv.querySelector(".message-text").textContent =
     userData.message;
-  //newMessage;
   chatBody.appendChild(outgoingMessageDiv);
-  ///BOT ANSWERS
+  
   setTimeout(() => {
     const messageContent = ` <div class="message bot-message thinking">
                 <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -85,6 +102,7 @@ function handleOutgoingMessage(e) {
     generateBotResponse(incomingMessageDiv);
   }, 600);
 }
+//////
 
 ////Event Listeners///
 userInput.addEventListener("keydown", (e) => {

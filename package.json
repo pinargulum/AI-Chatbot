@@ -1,0 +1,20 @@
+{
+  "name": "ai-chatbot",
+  "version": "1.0.0",
+  "description": "A simple, interactive chatbot built with **HTML**, **CSS**, and **JavaScript**. This project allows users to engage in basic conversations with the chatbot while showcasing a visually appealing and responsive user interface.",
+  "main": "script.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.34"
+  }
+}
