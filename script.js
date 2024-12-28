@@ -10,8 +10,7 @@ const userData = {
   message: null,
 };
 
-const API_KEY = "AIzaSyCwrsYY38YuPROjubKMXuXOoDaS64ep-vk";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
 
 async function generateBotResponse(incomingMessageDiv) {
   const messageElement = incomingMessageDiv.querySelector(".message-text");
