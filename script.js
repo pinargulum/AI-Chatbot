@@ -1,50 +1,42 @@
+
 const chatBody = document.querySelector(".chat-body");
 const userInput = document.querySelector(".message-input");
 const sendButton = document.querySelector("#send-message");
 const botThinking = document.querySelector(".message.bot-message.thinking");
-const newText = document.querySelector(".message-text")
-botAvatar = document.querySelector(".botAvatar")
+const newText = document.querySelector(".message-text");
+botAvatar = document.querySelector(".botAvatar");
+
 const userData = {
   message: null,
 };
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
-}
+
 const API_KEY = "AIzaSyCwrsYY38YuPROjubKMXuXOoDaS64ep-vk";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
-}
-
-async function generateBotResponse (incomingMessageDiv) {
-  const requestOptions =  {
+async function generateBotResponse(incomingMessageDiv) {
+  const messageElement = incomingMessageDiv.querySelector(".message-text");
+  const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/Json" },
     body: JSON.stringify({
-      contents: [{
-    parts:[{ text: userData.message }]
-      
-  }]
-  
-})
+      contents: [
+        {
+          parts: [{ text: userData.message }],
+        },
+      ],
+    }),
+  };
+  try {
+    const response = await fetch(API_URL, requestOptions);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error.message);
+    const apiBotResponseText = data.candidates[0].content.parts[0].text.trim();
+    messageElement.innerText = apiBotResponseText;
+  } catch (error) {
+    console.log(error);
+  }
 }
-try {
-  const response = await fetch(API_URL, requestOptions);
-  const data = await response.json();
-  if(!response.ok) throw new Error(data.error.message);
-  const apiResponseText = data.candidates[0].content.parts[0].text.trim();
 
-  } catch(error) {
-    console.log(error)
-}
-}
 function createMessageElement(content, ...classes) {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
@@ -52,22 +44,22 @@ function createMessageElement(content, ...classes) {
   return div;
 }
 
-/////HANDLE EVENTS///
+/////USER MESSAGE///
 function handleOutgoingMessage(e) {
   e.preventDefault();
   const messageContent = `<div class="message-text"></div>`;
   const outgoingMessageDiv = createMessageElement(
     messageContent,
-    "user-message"
+    "user-message",
   );
 
-  newMessage = newText;
-  newMessage = userInput.value;
+  userData.message = userInput.value;
   userInput.value = "";
-  outgoingMessageDiv.querySelector(".message-text").textContent = newMessage;
-  newMessage;
+  outgoingMessageDiv.querySelector(".message-text").textContent =
+    userData.message;
+  //newMessage;
   chatBody.appendChild(outgoingMessageDiv);
-
+  ///BOT ANSWERS
   setTimeout(() => {
     const messageContent = ` <div class="message bot-message thinking">
                 <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -85,8 +77,8 @@ function handleOutgoingMessage(e) {
                     </div>
                 </div>
             </div>
-        </div>`
-      const incomingMessageDiv = createMessageElement(
+        </div>`;
+    const incomingMessageDiv = createMessageElement(
       messageContent,
       ".bot-message",
     );
